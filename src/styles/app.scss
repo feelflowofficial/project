@@ -1,3 +1,60 @@
+
+#__next {
+	flex: content;
+  height: auto;
+  width: auto;
+
+}
+
 body {
   margin: 0;
+  width: 100%;
+  height: 100%;
 }
+
+  html,
+  body,
+  body > div:first-child,
+  div#__next,
+  div#__next > section {
+    height: 100%;
+  }
+
+section {
+    position: relative;
+    height: auto;
+    margin: auto;
+    background-color: rgb(255, 255, 255);
+}
+
+.s1{
+    background-color: rgb(241, 224, 204);
+    float: left;
+    height: 100%;
+    width: 50%;
+    position: relative;
+}
+
+.s2 {
+  background-color: rgb(255, 255, 255);
+  float: left;
+  height: 100%;
+  width:50%;
+  position: relative;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.s1 img {
+  position: relative;
+  width: 50%;
+  top: 25%;
+  left: 25%;
+}
+
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
