@@ -1,13 +1,33 @@
 import Link from 'next/link'
-import styles from '@/styles/login.module.scss'
-import {useState} from 'react'
+import styles from '@/styles/signup.module.scss'
+import {ChangeEvent, useCallback, useState} from 'react'
+import { useRouter } from 'next/router'
 
-type SignUpFormType = Record<'id' | 'password' | 'confirmPassword', string>
-const initialFormState = {id: '', password: '', confirmPassword: ''}
+type SignUpFormType = Record<'name' | 'id' | 'email' | 'password' | 'confirmPassword', string>
+const initialFormState = {name: '', id: '', email: '', password: '', confirmPassword: ''}
 
 export default function SignUp() {
-  const [{id, password, confirmPassword}, setForm] =
+  const router = useRouter()
+
+  const [{name, id, email, password, confirmPassword}, setForm] =
     useState<SignUpFormType>(initialFormState)
+
+  const changed = useCallback((key:string) => (e: ChangeEvent<HTMLInputElement>) =>{
+    setForm(obj => ({...obj, [key]: e.target.value}))
+  }, [])
+
+
+  const signupAccount = useCallback(() => {
+    console.log(name)
+    console.log(id)
+    console.log(email)
+    console.log(password)
+    console.log(confirmPassword)
+
+    localStorage.clear()
+    localStorage.setItem('SignUpUser', JSON.stringify({name: name, id: id, email: email, password: password, confirmPassword: confirmPassword}))
+    router.push("/login")
+  }, [name, id, email, password, confirmPassword])
 
   return (
     <section>
@@ -25,34 +45,47 @@ export default function SignUp() {
         </p>
 
         <div className={styles.test}>
-          <button className={styles.button}>카카오 로그인</button>
+          <div className={styles.div}>
+            <label className={styles.label}>
+              이름
+            </label>
+            <input className={styles.input} type="text" name="name" onChange={changed('name')}/>
+          </div>
 
-          <button className={styles.button}>Google 로그인</button>
+          <div className={styles.div}>
+            <label className={styles.label}>
+              아이디
+            </label>
+            <input className={styles.input} type="text" name="id" onChange={changed('id')}/>
+          </div>
 
-          <button className={styles.button}>네이버 로그인</button>
+          <div className={styles.div}>
+            <label className={styles.label}>
+              이메일 주소
+            </label>
+            <input className={styles.input} type="text" name="email" onChange={changed('email')}/>
+          </div>
 
-          <input
-            className={styles.input}
-            type="text"
-            name="id"
-            placeholder="아이디"
-            value={id}
-          />
-          <br />
-          <input
-            className={styles.input}
-            type="password"
-            name="password"
-            placeholder="비밀번호"
-            value={password}
-          />
+          <div className={styles.div}>
+            <label className={styles.label}>
+              비밀번호
+            </label>
+            <input className={styles.input} type="password" name="password" onChange={changed('password')}/>
+          </div>
 
-          <button className={styles.button}>로그인</button>
+          <div className={styles.div}>
+            <label className={styles.label} >
+              비밀번호 확인
+            </label>
+            <input className={styles.input} type="password" name="confirmPassword" onChange={changed('confirmPassword')}/>
+          </div>
 
-          <label>
-            아직 파일럿 계정이 없으신가요?
-            <Link href="/signup">회원가입</Link>
-          </label>
+          <Link href="/">
+            <button className={styles.button}>
+              이전
+            </button>
+          </Link>
+          <button type="submit" className={styles.button} onClick={signupAccount}>다음</button>
         </div>
       </div>
     </section>

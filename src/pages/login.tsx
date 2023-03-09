@@ -18,6 +18,10 @@ export default function Login() {
   const loginAccount = useCallback(() => {
     console.log(id)
     console.log(password)
+
+    localStorage.clear()
+    localStorage.setItem('LoginUser', JSON.stringify({id: id, password: password}))
+
     router.push("/")
   },[id, password])
 
